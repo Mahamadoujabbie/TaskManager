@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "nedb": "^1.8.0",
+    "nedb-promises": "^6.2.3",
+    "netlify-cli": "^23.13.5",
+    "serverless-http": "^4.0.0"
+  },
+  "name": "morri",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "netlify dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
