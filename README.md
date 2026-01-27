@@ -14,37 +14,29 @@ Serverless REST API built with Express, packaged for Netlify Functions via `serv
 
 ## Project structure
 
-# - mainEntryPonit/app.js
+- mainEntryPonit/app.js
+  Express app wiring, routes registration
 
-Express app wiring, routes registration
+- functions/index.js
+  Netlify Function handler wrapping the app
 
-# - functions/index.js
+- usersCreation/CreateAccount.js
+  POST /create handler (signup)
 
-Netlify Function handler wrapping the app
+- usersCreation/Login.js
+  POST /login handler (signin)
 
-# - usersCreation/CreateAccount.js
+- middlewares/Authenticate.js
+  JWT verification middleware
 
-POST /create handler (signup)
+- config/config.js
+  secret key configuration
 
-# - usersCreation/Login.js
+- userActions/Tasks.js
+  Task CRUD operations (create, read, update, delete)
 
-POST /login handler (signin)
-
-# - middlewares/Authenticate.js
-
-JWT verification middleware
-
-# - config/config.js
-
-secret key configuration
-
-# - userActions/Tasks.js
-
-Task CRUD operations (create, read, update, delete)
-
-# - database
-
-NeDB datastore files (Users.db, Tasks.db)
+- database
+  NeDB datastore files (Users.db, Tasks.db)
 
 ## Local setup
 
