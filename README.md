@@ -1,24 +1,21 @@
-# TaskManager API (Netlify + Express)
+# TaskManager API (Express + PostgreSQL)
 
 ## Overview
 
-Serverless REST API built with Express, packaged for Netlify Functions via `serverless-http`. Provides user registration and login with JWT-based authentication, backed by a NeDB-promises datastore.
+REST API built with Express. Provides user registration and login with JWT-based authentication, backed by PostgreSQL.
 
 ## Tech stack
 
 - Node.js (CommonJS), Express 5
-- Netlify Functions + `serverless-http`
-- NeDB (file-backed), `nedb-promises`
+- PostgreSQL (`pg`) with SSL
 - Auth: `bcryptjs` for hashing, `jsonwebtoken` for JWT
 - Middleware: CORS, JSON body parsing
+- Dev: `nodemon`
 
 ## Project structure
 
 - mainEntryPonit/app.js
   Express app wiring, routes registration
-
-- functions/index.js
-  Netlify Function handler wrapping the app
 
 - usersCreation/CreateAccount.js
   POST /create handler (signup)
@@ -35,25 +32,25 @@ Serverless REST API built with Express, packaged for Netlify Functions via `serv
 - userActions/Tasks.js
   Task CRUD operations (create, read, update, delete)
 
-- database
-  NeDB datastore files (Users.db, Tasks.db)
+- database/db.js
+  PostgreSQL connection + table initialization
 
 ## Local setup
 
-1. Prerequisites: Node.js 18+, npm. Install Netlify CLI if you want local functions: `npm i -g netlify-cli`.
+1. Prerequisites: Node.js 18+, npm.
 2. Install dependencies: `npm install`
-3. Run locally with Netlify dev (recommended): `npm run dev`
-   - Default URL: http://localhost:8888
-   - Function mount: http://localhost:8888/.netlify/functions/index
+3. Run locally: `npm run dev`
+
+- Default URL: http://localhost:4000
 
 ## Environment configuration
 
 - JWT secret is read from config/config.js (`secretKey`). For production, replace this with an environment variable and do not commit secrets.
-- NeDB stores data in database/Users.db and database/Tasks.db (files are auto-created).
+- PostgreSQL connection is configured via `.env` (local) or Render environment variables.
 
 ## API reference
 
-Base URL (Netlify dev): http://localhost:8888/
+Base URL (local): http://localhost:4000/
 POST /create — Sign up
 
 - Body (JSON): `username` (must contain `@`), `password` (min 8 chars), `name`
@@ -115,21 +112,21 @@ PUT /updatetask — Update a task (protected)
 ## Usage examples
 
 curl ==> POST
-http://localhost:8888/create
+http://localhost:4000/create
 "Content-Type: application/json"
 '{"username":"user@example.com","password":"strongpass","name":"User"}'
 
 # Login
 
 curl ==> POST
-http://localhost:8888/login
+http://localhost:4000/login
 "Content-Type: application/json"
 '{"username":"user@example.com","password":"strongpass"}'
 
 # Create a task
 
 curl ==> POST
-http://localhost:8888/createATask
+http://localhost:4000/createATask
 "Content-Type: application/json"
 "Authorization: <JWT_TOKEN>"
 '{"taskTitle":"My Task","taskDetails":"Task description","expairesDate":"2026-02-01"}'
@@ -137,13 +134,13 @@ http://localhost:8888/createATask
 # Get all tasks
 
 curl ==> GET
-http://localhost:8888/getAll
+http://localhost:4000/getAll
 "Authorization: <JWT_TOKEN>"
 
 # Get specific task
 
 curl ==> GET
-http://localhost:8888/getTask
+http://localhost:4000/getTask
 "Content-Type: application/json"
 "Authorization: <JWT_TOKEN>"
 '{"taskTitle":"My Task"}'
@@ -151,7 +148,7 @@ http://localhost:8888/getTask
 # Update a task (protected)
 
 curl ==> PUT
-http://localhost:8888/updatetask
+http://localhost:4000/updatetask
 "Content-Type: application/json"
 "Authorization: <JWT_TOKEN>"
 '{"taskTitle":"My Task","taskDetails":"Updated description"}'
@@ -159,7 +156,7 @@ http://localhost:8888/updatetask
 # Delete a task (protected)
 
 curl ==> DELETE
-http://localhost:8888/deletetask
+http://localhost:4000/deletetask
 "Content-Type: application/json"
 "Authorization: <JWT_TOKEN>"
 '{"taskTitle":"My Task"}'
@@ -169,9 +166,9 @@ http://localhost:8888/deletetask
 - No automated tests are present.
 - Task management system is fully implemented with CRUD operations for tasks.
 - Each user can create, read, update, and delete their own tasks.
-- Tasks are linked to users via userId and stored in the same Tasks.db datastore.
+- Tasks are linked to users via userId and stored in PostgreSQL.
 
 ## Deployment
 
-- Netlify configuration: see netlify.toml
-- Build/run via Netlify:
+- Render: use `npm start` as the Start Command.
+- Add env vars in Render dashboard: `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`, and `PORT` (Render usually sets `PORT`).
