@@ -1,4 +1,4 @@
-const { users, bcrypt, jwt, secretKey } = require("../mainEntryPonit/app");
+const { users, bcrypt, jwt, secretKey } = require("../app");
 
 module.exports = (Login) => {
   Login.post("/login", async (req, res) => {

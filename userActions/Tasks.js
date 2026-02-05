@@ -1,5 +1,5 @@
 const authenticate = require("../middlewares/Authenticate");
-const { users, tasks } = require("../mainEntryPonit/app");
+const { users, tasks } = require("../app");
 const e = require("express");
 
 module.exports = (Tasks) => {

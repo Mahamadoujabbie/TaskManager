@@ -1,4 +1,4 @@
-const { users, jwt, secretKey } = require("../mainEntryPonit/app");
+const { users, jwt, secretKey } = require("../app");
 
 async function authenticate(req, res, next) {
   const authHeader = req.headers.authorization;

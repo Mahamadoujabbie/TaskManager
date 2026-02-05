@@ -1,8 +1,8 @@
 const express = require("express");
-const { pool, initializeDatabase } = require("../database/db");
+const { pool, initializeDatabase } = require("./database/db");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
-const { secretKey } = require("../config/config");
+const { secretKey } = require("./config/config");
 const jwt = require("jsonwebtoken");
 
 // Initialize database tables on startup
@@ -149,9 +149,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-require("../usersCreation/CreateAccount")(app);
-require("../usersCreation/Login")(app);
-require("../userActions/Tasks")(app);
+require("./usersCreation/CreateAccount")(app);
+require("./usersCreation/Login")(app);
+require("./userActions/Tasks")(app);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

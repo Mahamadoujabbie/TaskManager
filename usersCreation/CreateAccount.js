@@ -1,4 +1,4 @@
-const { users, bcrypt } = require("../mainEntryPonit/app");
+const { users, bcrypt } = require("../app");
 
 module.exports = (SignUp) => {
   SignUp.post("/create", async (req, res) => {
