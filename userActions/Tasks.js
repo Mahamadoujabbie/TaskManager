@@ -104,7 +104,7 @@ module.exports = (Tasks) => {
     }
 
     const taskDataToSend = {
-      Tilte: isTaskExistByTitle.title,
+      title: isTaskExistByTitle.title,
       task: isTaskExistByTitle.task,
       createdAt: isTaskExistByTitle.createdAt,
       expairesAt: isTaskExistByTitle.expairesAt,
