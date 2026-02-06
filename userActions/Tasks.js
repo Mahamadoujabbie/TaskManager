@@ -77,6 +77,7 @@ module.exports = (Tasks) => {
     }
 
     const dataToSendToUser = allTasks.map((task) => ({
+      id: task._id,
       title: task.title,
       task: task.task,
       createdAt: task.createdAt,
