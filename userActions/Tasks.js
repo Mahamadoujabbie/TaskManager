@@ -38,7 +38,7 @@ module.exports = (Tasks) => {
         userId: userData._id,
         title: taskTitle,
         task: taskDetails,
-        createdAt: new Date(),
+        createdAt: new Date().toISOString().split("T")[0],
         expairesAt: expairesDate,
       });
 
@@ -86,7 +86,7 @@ module.exports = (Tasks) => {
     return res.status(200).send(dataToSendToUser);
   });
 
-  Tasks.get("/getTask", authenticate, async (req, res) => {
+  Tasks.post("/getTask", authenticate, async (req, res) => {
     const { taskTitle } = req.body;
     const username = req.me.username;
     const userData = await users.findOne({ username });
