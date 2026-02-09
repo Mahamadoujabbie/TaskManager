@@ -29,11 +29,12 @@ module.exports = (SignUp) => {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = await users.insert({
+      await users.insert({
         name,
         username,
         password: hashedPassword,
         Date: new Date().getDate(),
+        status: "active",
       });
       return res.status(201).send({
         message: "User created successfully",

@@ -25,6 +25,12 @@ module.exports = (Tasks) => {
         return res.status(401).send({ error: "Unauthorized" });
       }
 
+      if (userData.status === "inactive") {
+        return res
+          .status(403)
+          .send({ error: "Your account is inactive. Please contact support." });
+      }
+
       const isTaskAlreadyExist = await tasks.findOne({
         userId: userData._id,
         title: taskTitle,
@@ -154,6 +160,12 @@ module.exports = (Tasks) => {
       return res.status(401).send({ error: "Unauthorized" });
     }
 
+    if (userData.status === "inactive") {
+      return res
+        .status(403)
+        .send({ error: "Your account is inactive. Please contact support." });
+    }
+
     const isTaskExistByTitle = await tasks.findOne({
       userId: userData._id,
       title: taskTitle,
@@ -184,6 +196,13 @@ module.exports = (Tasks) => {
     if (!userData) {
       return res.status(401).send({ error: "Unauthorized" });
     }
+
+    if (userData.status === "inactive") {
+      return res
+        .status(403)
+        .send({ error: "Your account is inactive. Please contact support." });
+    }
+
     const isTaskExistByTitle = await tasks.findOne({
       userId: userData._id,
       title: taskTitle,
