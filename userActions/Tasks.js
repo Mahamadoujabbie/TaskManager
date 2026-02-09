@@ -188,7 +188,7 @@ module.exports = (Tasks) => {
     return res.status(200).send({ message: "Task updated successfully" });
   });
 
-  tasks.put("/updatetaskstatus", authenticate, async (req, res) => {
+  Tasks.put("/updatetaskstatus", authenticate, async (req, res) => {
     const { taskTitle, status } = req.body;
     const username = req.me.username;
     const userData = await users.findOne({ username });
@@ -207,9 +207,11 @@ module.exports = (Tasks) => {
       userId: userData._id,
       title: taskTitle,
     });
+
     if (!isTaskExistByTitle) {
       return res.status(404).send({ error: "Task not found" });
     }
+
     const updatedTask = {
       task: isTaskExistByTitle.task,
       title: taskTitle,
@@ -218,7 +220,8 @@ module.exports = (Tasks) => {
       expairesAt: isTaskExistByTitle.expairesAt,
       status: status,
     };
-    tasks.update({ _id: isTaskExistByTitle._id }, updatedTask);
+
+    await tasks.update({ _id: isTaskExistByTitle._id }, updatedTask);
     return res
       .status(200)
       .send({ message: "Task status updated successfully" });
