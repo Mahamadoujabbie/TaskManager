@@ -35,6 +35,7 @@ const initializeDatabase = async () => {
         task TEXT NOT NULL,
         "createdAt" TIMESTAMP NOT NULL,
         "expairesAt" VARCHAR(255) NOT NULL,
+        status VARCHAR(50) NOT NULL,
         FOREIGN KEY ("userId") REFERENCES users(_id) ON DELETE CASCADE
       );
     `);

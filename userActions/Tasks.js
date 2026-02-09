@@ -81,6 +81,7 @@ module.exports = (Tasks) => {
       task: task.task,
       createdAt: task.createdAt,
       expairesAt: task.expairesAt,
+      status: task.status,
     }));
     return res.status(200).send(dataToSendToUser);
   });
