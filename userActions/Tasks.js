@@ -40,6 +40,7 @@ module.exports = (Tasks) => {
         task: taskDetails,
         createdAt: new Date().toISOString().split("T")[0],
         expairesAt: expairesDate,
+        status: "pending",
       });
 
       const isTaskExist = await tasks.findOne({
@@ -47,11 +48,11 @@ module.exports = (Tasks) => {
         title: taskTitle,
       });
 
-      const taskDataToSend = {
-        title: isTaskExist.title,
-        createdAt: isTaskExist.createdAt,
-        expairesAt: isTaskExist.expairesAt,
-      };
+      // const taskDataToSend = {
+      //   title: isTaskExist.title,
+      //   createdAt: isTaskExist.createdAt,
+      //   expairesAt: isTaskExist.expairesAt,
+      // };
 
       return res.status(201).send({
         message: "Task created successfully",
@@ -69,6 +70,13 @@ module.exports = (Tasks) => {
     if (!userData) {
       return res.status(401).send({ error: "Unauthorized" });
     }
+
+    if (userData.status === "inactive") {
+      return res
+        .status(403)
+        .send({ error: "Your account is inactive. Please contact support." });
+    }
+
     const allTasks = await tasks.find({ userId: userData._id });
     if (allTasks.length === 0) {
       return res.status(404).send({ error: "No tasks found" });
@@ -104,10 +112,12 @@ module.exports = (Tasks) => {
     }
 
     const taskDataToSend = {
+      name: userData.name,
       title: isTaskExistByTitle.title,
       task: isTaskExistByTitle.task,
       createdAt: isTaskExistByTitle.createdAt,
       expairesAt: isTaskExistByTitle.expairesAt,
+      status: isTaskExistByTitle.status,
     };
     return res.status(200).send(taskDataToSend);
   });
@@ -158,9 +168,40 @@ module.exports = (Tasks) => {
       userId: userData._id,
       createdAt: isTaskExistByTitle.createdAt,
       expairesAt: isTaskExistByTitle.expairesAt,
+      status: isTaskExistByTitle.status,
     };
+
     await tasks.update({ _id: isTaskExistByTitle._id }, updatedTask);
 
     return res.status(200).send({ message: "Task updated successfully" });
+  });
+
+  tasks.put("/updatetaskstatus", authenticate, async (req, res) => {
+    const { taskTitle, status } = req.body;
+    const username = req.me.username;
+    const userData = await users.findOne({ username });
+
+    if (!userData) {
+      return res.status(401).send({ error: "Unauthorized" });
+    }
+    const isTaskExistByTitle = await tasks.findOne({
+      userId: userData._id,
+      title: taskTitle,
+    });
+    if (!isTaskExistByTitle) {
+      return res.status(404).send({ error: "Task not found" });
+    }
+    const updatedTask = {
+      task: isTaskExistByTitle.task,
+      title: taskTitle,
+      userId: userData._id,
+      createdAt: isTaskExistByTitle.createdAt,
+      expairesAt: isTaskExistByTitle.expairesAt,
+      status: status,
+    };
+    tasks.update({ _id: isTaskExistByTitle._id }, updatedTask);
+    return res
+      .status(200)
+      .send({ message: "Task status updated successfully" });
   });
 };

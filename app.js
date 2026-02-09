@@ -11,10 +11,10 @@ initializeDatabase();
 // Create wrapper objects to maintain API compatibility with nedb
 const users = {
   insert: async (userData) => {
-    const { name, username, password, Date } = userData;
+    const { name, username, password, Date, status } = userData;
     const result = await pool.query(
-      "INSERT INTO users (name, username, password, date) VALUES ($1, $2, $3, $4) RETURNING _id, name, username, password, date",
-      [name, username, password, Date],
+      "INSERT INTO users (name, username, password, date, status) VALUES ($1, $2, $3, $4, $5) RETURNING _id, name, username, password, date, status",
+      [name, username, password, Date, status],
     );
     return result.rows[0];
   },
@@ -57,10 +57,10 @@ const users = {
 
 const tasks = {
   insert: async (taskData) => {
-    const { userId, title, task, createdAt, expairesAt } = taskData;
+    const { userId, title, task, createdAt, expairesAt, status } = taskData;
     const result = await pool.query(
-      'INSERT INTO tasks ("userId", title, task, "createdAt", "expairesAt") VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [userId, title, task, createdAt, expairesAt],
+      'INSERT INTO tasks ("userId", title, task, "createdAt", "expairesAt", status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [userId, title, task, createdAt, expairesAt, status],
     );
     return result.rows[0];
   },
