@@ -55,8 +55,6 @@ module.exports = (Tasks) => {
 
       return res.status(201).send({
         message: "Task created successfully",
-        task: taskDataToSend,
-        status: 201,
       });
     } catch (err) {
       res.status(500).send({ error: err.message });
@@ -77,7 +75,6 @@ module.exports = (Tasks) => {
     }
 
     const dataToSendToUser = allTasks.map((task) => ({
-      id: task._id,
       title: task.title,
       task: task.task,
       createdAt: task.createdAt,
