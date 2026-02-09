@@ -5,14 +5,14 @@ module.exports = (SignUp) => {
     try {
       const { username, password, name } = req.body;
       if (!username) {
-        return res.status(403).send({ error: "Username is required" });
+        return res.status(422).send({ error: "Username is required" });
       }
       if (!password) {
-        return res.status(403).send({ error: "Password is required" });
+        return res.status(422).send({ error: "Password is required" });
       }
 
       if (!name) {
-        return res.status(403).send({ error: "Name is required" });
+        return res.status(422).send({ error: "Name is required" });
       }
 
       if (password.length < 8) {
@@ -25,7 +25,7 @@ module.exports = (SignUp) => {
       }
 
       if (await users.findOne({ username })) {
-        return res.status(403).send({ error: "Username already exists" });
+        return res.status(409).send({ error: "Username already exists" });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,8 +37,6 @@ module.exports = (SignUp) => {
       });
       return res.status(201).send({
         message: "User created successfully",
-        user: newUser._id,
-        status: 201,
       });
     } catch (err) {
       res.status(500).send({ error: err.message });
