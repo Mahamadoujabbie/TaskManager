@@ -22,7 +22,8 @@ const initializeDatabase = async () => {
         name VARCHAR(255) NOT NULL,
         username VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
-        date BIGINT NOT NULL
+        date BIGINT NOT NULL,
+        status VARCHAR(50) DEFAULT 'active' NOT NULL
       );
     `);
 
@@ -35,9 +36,34 @@ const initializeDatabase = async () => {
         task TEXT NOT NULL,
         "createdAt" TIMESTAMP NOT NULL,
         "expairesAt" VARCHAR(255) NOT NULL,
-        status VARCHAR(50) NOT NULL,
+        status VARCHAR(50) DEFAULT 'incompleted' NOT NULL,
         FOREIGN KEY ("userId") REFERENCES users(_id) ON DELETE CASCADE
       );
+    `);
+
+    // Add status column to existing tables if they don't have it
+    await pool.query(`
+      DO $$ 
+      BEGIN 
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name='users' AND column_name='status'
+        ) THEN
+          ALTER TABLE users ADD COLUMN status VARCHAR(50) DEFAULT 'active' NOT NULL;
+        END IF;
+      END $$;
+    `);
+
+    await pool.query(`
+      DO $$ 
+      BEGIN 
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name='tasks' AND column_name='status'
+        ) THEN
+          ALTER TABLE tasks ADD COLUMN status VARCHAR(50) DEFAULT 'incompleted' NOT NULL;
+        END IF;
+      END $$;
     `);
 
     console.log("Database tables initialized successfully");

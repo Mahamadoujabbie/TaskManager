@@ -46,7 +46,7 @@ module.exports = (Tasks) => {
         task: taskDetails,
         createdAt: new Date().toISOString().split("T")[0],
         expairesAt: expairesDate,
-        status: "pending",
+        status: "incompleted",
       });
 
       const isTaskExist = await tasks.findOne({
