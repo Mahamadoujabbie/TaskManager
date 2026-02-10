@@ -34,7 +34,7 @@ module.exports = (SignUp) => {
         username,
         password: hashedPassword,
         Date: new Date().getDate(),
-        status: "active",
+        role: "user",
       });
       return res.status(201).send({
         message: "User created successfully",

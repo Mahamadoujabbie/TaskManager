@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const { secretKey } = require("./config/config");
 const jwt = require("jsonwebtoken");
-
+const path = require("path");
 // Initialize database tables on startup
 initializeDatabase();
 
@@ -155,6 +155,10 @@ app.use(
   }),
 );
 app.use(express.json());
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 require("./usersCreation/CreateAccount")(app);
 require("./usersCreation/Login")(app);

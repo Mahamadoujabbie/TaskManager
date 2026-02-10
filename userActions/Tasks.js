@@ -211,19 +211,22 @@ module.exports = (Tasks) => {
     if (!isTaskExistByTitle) {
       return res.status(404).send({ error: "Task not found" });
     }
+    try {
+      const updatedTask = {
+        task: isTaskExistByTitle.task,
+        title: taskTitle,
+        userId: userData._id,
+        createdAt: isTaskExistByTitle.createdAt,
+        expairesAt: isTaskExistByTitle.expairesAt,
+        status: status,
+      };
 
-    const updatedTask = {
-      task: isTaskExistByTitle.task,
-      title: taskTitle,
-      userId: userData._id,
-      createdAt: isTaskExistByTitle.createdAt,
-      expairesAt: isTaskExistByTitle.expairesAt,
-      status: status,
-    };
-
-    await tasks.update({ _id: isTaskExistByTitle._id }, updatedTask);
-    return res
-      .status(200)
-      .send({ message: "Task status updated successfully" });
+      await tasks.update({ _id: isTaskExistByTitle._id }, updatedTask);
+      return res
+        .status(200)
+        .send({ message: "Task status updated successfully" });
+    } catch (err) {
+      return res.status(500).send({ error: err.message });
+    }
   });
 };
