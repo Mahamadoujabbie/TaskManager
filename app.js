@@ -156,13 +156,14 @@ app.use(
 );
 app.use(express.json());
 
-app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
 require("./usersCreation/CreateAccount")(app);
 require("./usersCreation/Login")(app);
 require("./userActions/Tasks")(app);
+
+// Catch-all route for client-side routing (must be last)
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
