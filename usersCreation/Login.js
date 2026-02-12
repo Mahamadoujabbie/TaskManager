@@ -1,36 +1,43 @@
-const { users, bcrypt, jwt, secretKey } = require("../app");
+const { pool, bcrypt, jwt, secretKey } = require("../app");
+const { findUser } = require("../sql/sql");
 
 module.exports = (Login) => {
   Login.post("/login", async (req, res) => {
     const { username, password } = req.body;
+
+    if (!username) {
+      return res
+        .status(422)
+        .json({ error: "Username or password is required", status: 422 });
+    }
+
+    if (!password) {
+      return res
+        .status(422)
+        .json({ error: "Username or password is required", status: 422 });
+    }
+
     try {
-      if (!username) {
-        return res
-          .status(422)
-          .json({ error: "Username or password is required", status: 422 });
+      // Find user by username
+      const result = await pool.query(findUser.findByUsername, [username]);
+      const user = result.rows;
+      if (!user || user.length === 0) {
+        return res.status(401).send({ error: "Unauthorized" });
       }
 
-      const isUserExist = await users.findOne({ username });
-      if (!isUserExist) {
-        return res.status(401).send({ error: "Unauthorized", status: 401 });
-      }
-
-      const isPasswordValid = await bcrypt.compare(
-        password,
-        isUserExist.password,
-      );
+      const isPasswordValid = await bcrypt.compare(password, user[0].password);
       if (!isPasswordValid) {
-        return res.status(403).send({ error: "Invalid password" });
+        return res.status(403).send({ error: "Invalid password", status: 403 });
       }
 
       const token = jwt.sign(
-        { id: isUserExist._id, username: isUserExist.username },
+        { id: user[0].id, username: user[0].username, role: user[0].role },
         secretKey,
         { expiresIn: "1h" },
       );
-      return res.status(200).send({ token, status: 200 });
+      return res.status(200).send({ token });
     } catch (err) {
-      res.status(500).send({ error: err.message });
+      res.status(500).send({ error: err.message, status: 500 });
     }
   });
 };
