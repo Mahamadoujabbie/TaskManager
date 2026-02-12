@@ -1,3 +1,4 @@
 module.exports = {
-  secretKey: "kasamarandu12345@jabaromara#%$#**+hagffhdh",
+  secretKey:
+    process.env.SECRET_KEY || "kasamarandu12345@jabaromara#%$#**+hagffhdh",
 };
