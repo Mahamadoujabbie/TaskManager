@@ -60,7 +60,7 @@ require("./userActions/Users")(app);
 require("./userActions/UpdateUserStatus")(app);
 require("./userActions/DeleteUser")(app);
 
-const PORT = process.env.APPPORT || 4000;
+const PORT = process.env.PORT || process.env.APPPORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
