@@ -1,6 +1,6 @@
 const authenticate = require("../middlewares/Authenticate");
 const { pool } = require("../app");
-const { findUser, findTask, insertTask } = require("../sql/sql");
+const { findUser, findTask, insertTask } = require("../sql/SQL");
 
 module.exports = (app) => {
   app.delete("/deletetask", authenticate, async (req, res) => {

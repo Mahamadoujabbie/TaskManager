@@ -1,5 +1,5 @@
 const { pool, bcrypt, jwt, secretKey } = require("../app");
-const { findUser } = require("../sql/sql");
+const { findUser } = require("../sql/SQL");
 
 module.exports = (Login) => {
   Login.post("/login", async (req, res) => {

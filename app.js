@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const { secretKey } = require("./config/config");
 const jwt = require("jsonwebtoken");
-const { findUser, insertUser } = require("./sql/sql");
+const { findUser, insertUser } = require("./sql/SQL");
 module.exports = { pool, bcrypt, jwt, secretKey };
 
 const app = express();

@@ -1,5 +1,5 @@
 const { jwt, secretKey, pool } = require("../app");
-const { findUser } = require("../sql/sql");
+const { findUser } = require("../sql/SQL");
 
 async function AdminsAccess(req, res, next) {
   const authHeader = req.headers.authorization;

@@ -22,7 +22,9 @@ pool
   })
   .catch((err) => {
     console.error("Error connecting to PostgreSQL database:", err.message);
-    console.error("Check your environment variables: HOST, PORT, NAME, USER, PASSWORD");
+    console.error(
+      "Check your environment variables: HOST, PORT, NAME, USER, PASSWORD",
+    );
   });
 
 module.exports = { pool };

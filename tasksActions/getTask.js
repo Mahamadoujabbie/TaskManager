@@ -1,6 +1,6 @@
 const authenticate = require("../middlewares/Authenticate");
 const { pool } = require("../app");
-const { findUser, findTask } = require("../sql/sql");
+const { findUser, findTask } = require("../sql/SQL");
 
 module.exports = (app) => {
   app.post("/getTask", authenticate, async (req, res) => {

@@ -1,5 +1,5 @@
 const { pool } = require("../app");
-const { findUser } = require("../sql/sql");
+const { findUser } = require("../sql/SQL");
 const AdminsAccess = require("../middlewares/AdminAccess");
 
 module.exports = (userApp) => {

@@ -1,5 +1,5 @@
 const { pool, bcrypt } = require("../app");
-const { findUser, insertUser } = require("../sql/sql");
+const { findUser, insertUser } = require("../sql/SQL");
 
 module.exports = (SignUp) => {
   SignUp.post("/create", async (req, res) => {

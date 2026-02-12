@@ -1,6 +1,6 @@
 const AdminsAccess = require("../middlewares/AdminAccess");
 const { pool } = require("../app");
-const { insertUser, findUser } = require("../sql/sql");
+const { insertUser, findUser } = require("../sql/SQL");
 
 module.exports = (updateStatus) => {
   updateStatus.put("/user/status/:id", AdminsAccess, async (req, res) => {
