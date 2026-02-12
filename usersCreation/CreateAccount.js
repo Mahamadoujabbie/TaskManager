@@ -39,7 +39,7 @@ module.exports = (SignUp) => {
         name,
         username,
         hashedPassword,
-        new Date(),
+        new Date().toISOString().split("T")[0],
         "active",
         "user",
       ]);

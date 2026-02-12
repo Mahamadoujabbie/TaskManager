@@ -45,8 +45,36 @@ REST API built with Express. Provides user registration and login with JWT-based
 
 ## Environment configuration
 
-- JWT secret is read from config/config.js (`secretKey`). For production, replace this with an environment variable and do not commit secrets.
-- PostgreSQL connection is configured via `.env` (local) or Render environment variables.
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Server Configuration
+PORT=4000
+
+# Database Configuration (PostgreSQL)
+DB_HOST=your_database_host
+DB_PORT=5432
+DB_NAME=your_database_name
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+
+# Admin User Configuration
+ADMIN_NAME=Admin User
+ADMIN_USERNAME=admin@example.com
+ADMIN_PASSWORD=your_secure_admin_password
+ADMIN_ROLE=admin
+ADMIN_STATUS=active
+
+# JWT Secret Key
+SECRET_KEY=your_secret_key_here
+```
+
+**Important Notes:**
+
+- Copy `.env.example` to `.env` and fill in your actual values
+- In production (Render, Heroku, etc.), set these as environment variables in your hosting platform
+- Never commit `.env` to version control
+- Make sure `DB_PORT` (default 5432) is different from server `PORT` (default 4000)
 
 ## API reference
 

@@ -6,6 +6,8 @@ const cors = require("cors");
 const { secretKey } = require("./config/config");
 const jwt = require("jsonwebtoken");
 const { findUser, insertUser } = require("./sql/SQL");
+
+// Export dependencies for other modules to use
 module.exports = { pool, bcrypt, jwt, secretKey };
 
 const app = express();
@@ -24,8 +26,8 @@ async function AdminUserCreation() {
   const ADMIN_NAME = process.env.ADMIN_NAME;
   const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-  const ADMIN_ROLE = process.env.ADMIN_ROLE;
-  const ADMIN_STATUS = process.env.ADMIN_STATUS;
+  const ADMIN_ROLE = process.env.ADMIN_ROLE || "admin";
+  const ADMIN_STATUS = process.env.ADMIN_STATUS || "active";
 
   try {
     const result = await pool.query(findUser.findByUsername, [ADMIN_USERNAME]);
@@ -60,7 +62,7 @@ require("./userActions/Users")(app);
 require("./userActions/UpdateUserStatus")(app);
 require("./userActions/DeleteUser")(app);
 
-const PORT = process.env.PORT || process.env.APPPORT || 4000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

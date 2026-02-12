@@ -3,11 +3,11 @@ require("dotenv").config();
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  host: process.env.HOST,
-  port: process.env.PORT || 5432,
-  database: process.env.NAME,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT || 5432,
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   ssl: {
     rejectUnauthorized: false, // Required for Render
   },
@@ -23,7 +23,7 @@ pool
   .catch((err) => {
     console.error("Error connecting to PostgreSQL database:", err.message);
     console.error(
-      "Check your environment variables: HOST, PORT, NAME, USER, PASSWORD",
+      "Check your environment variables: DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD",
     );
   });
 
