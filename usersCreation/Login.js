@@ -35,7 +35,7 @@ module.exports = (Login) => {
         secretKey,
         { expiresIn: "1h" },
       );
-      return res.status(200).send({ token });
+      return res.status(200).send({ token, role: user[0].role, status: 200 });
     } catch (err) {
       res.status(500).send({ error: err.message, status: 500 });
     }
