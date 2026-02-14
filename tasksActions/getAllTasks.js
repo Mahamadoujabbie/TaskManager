@@ -33,8 +33,8 @@ module.exports = (app) => {
         id: task.id,
         title: task.title,
         task: task.task,
-        createdAt: task.createdAt,
-        expairesAt: task.expairesAt,
+        createdAt: task.created_at,
+        expairesAt: task.expires_at,
         status: task.status,
       }));
       return res.status(200).send(dataToSendToUser);
