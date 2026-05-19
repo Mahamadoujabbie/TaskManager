@@ -1,5 +1,5 @@
-const { jwt, secretKey, pool } = require("../app");
-const { findUser } = require("../sql/SQL");
+const { jwt, secretKey, pool } = require("../../puplic/modules/modules");
+const { findUser } = require("../../sql/query");
 
 async function AdminsAccess(req, res, next) {
   const authHeader = req.headers.authorization;

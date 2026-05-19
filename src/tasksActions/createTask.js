@@ -1,6 +1,6 @@
 const authenticate = require("../middlewares/Authenticate");
-const { pool } = require("../app");
-const { findUser, findTask, insertTask } = require("../sql/SQL");
+const { pool } = require("../../puplic/modules/modules");
+const { findUser, findTask, insertTask } = require("../../sql/query");
 
 module.exports = (app) => {
   app.post("/createATask", authenticate, async (req, res) => {

@@ -1,5 +1,5 @@
-const { pool } = require("../app");
-const { insertUser } = require("../sql/SQL");
+const { pool } = require("../../puplic/modules/modules");
+const { insertUser } = require("../../sql/query");
 const AdminsAccess = require("../middlewares/AdminAccess");
 
 module.exports = (remove) => {

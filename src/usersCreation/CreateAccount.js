@@ -1,5 +1,5 @@
-const { pool, bcrypt } = require("../app");
-const { findUser, insertUser } = require("../sql/SQL");
+const { pool, bcrypt } = require("../../puplic/modules/modules");
+const { findUser, insertUser } = require("../../sql/query");
 
 module.exports = (SignUp) => {
   SignUp.post("/create", async (req, res) => {

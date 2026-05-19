@@ -1,5 +1,5 @@
-const { pool } = require("../app");
-const { findUser } = require("../sql/SQL");
+const { pool } = require("../../puplic/modules/modules");
+const { findUser } = require("../../sql/query");
 const AdminsAccess = require("../middlewares/AdminAccess");
 
 module.exports = (userApp) => {

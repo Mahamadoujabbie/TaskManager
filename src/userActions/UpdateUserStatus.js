@@ -1,6 +1,6 @@
 const AdminsAccess = require("../middlewares/AdminAccess");
-const { pool } = require("../app");
-const { insertUser, findUser } = require("../sql/SQL");
+const { pool } = require("../../puplic/modules/modules");
+const { insertUser, findUser } = require("../../sql/query");
 
 module.exports = (updateStatus) => {
   updateStatus.put("/user/status/:id", AdminsAccess, async (req, res) => {
