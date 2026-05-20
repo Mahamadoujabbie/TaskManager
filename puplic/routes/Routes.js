@@ -22,6 +22,12 @@ function routes(app) {
   Oauth2(app);
 
   //tasksActions(app);
+  createTask(app);
+  deleteTask(app);
+  getAllTasks(app);
+  getTask(app);
+  updateTask(app);
+  updateTaskStatus(app);
 
   Users(app);
   UpdateUserStatus(app);
