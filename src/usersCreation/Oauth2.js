@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { pool, client } = require("../../puplic/modules/modules");
 const { findUser, insertUser } = require("../../sql/query");
 
