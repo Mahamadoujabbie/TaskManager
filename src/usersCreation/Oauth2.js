@@ -21,7 +21,7 @@ module.exports = (Oauth2) => {
         await pool.query(insertUser.createUser, [
           name,
           username,
-          null,
+          "null",
           new Date().toISOString().split("T")[0],
           "active",
           "user",
