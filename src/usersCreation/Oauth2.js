@@ -14,21 +14,23 @@ module.exports = (Oauth2) => {
       const payload = ticket.getPayload();
       const { name, email } = payload;
       // Check if user exists in the database
-      const result = await pool.query(findUser.findByUsername, [email]);
+      const result = await pool.query(findUser.findByEmail, [email]);
       let user = result.rows;
       if (!user || user.length === 0) {
         // If user doesn't exist, create a new user
         await pool.query(insertUser.createUser, [
           name,
           email,
-          "null",
+          "pass_oauth2/null",
           new Date().toISOString().split("T")[0],
           "active",
           "user",
         ]);
         return res.status(201).send({ message: "User created successfully" });
       }
-      return res.status(200).send(payload); // You can customize the response as needed
+      return res
+        .status(200)
+        .send({ message: "User authenticated successfully" });
     } catch (error) {
       console.error("Error verifying Google token:", error);
       return res.status(401).send({ error: "Invalid Google token" });
