@@ -26,12 +26,7 @@ module.exports = (Oauth2) => {
           "active",
           "user",
         ]);
-
-        const newUserResult = await pool.query(findUser.findByUsername, [
-          email,
-        ]);
-        user = newUserResult.rows;
-        return res.status(201).send(payload);
+        return res.status(201).send({ message: "User created successfully" });
       }
       return res
         .status(200)
