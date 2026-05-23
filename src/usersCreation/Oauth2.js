@@ -14,14 +14,14 @@ module.exports = (Oauth2) => {
       const payload = ticket.getPayload();
       const { name, email } = payload;
       // Check if user exists in the database
-      const result = await pool.query(findUser.findByEmail, [email]);
+      const result = await pool.query(findUser.findByUsername, [email]);
       let user = result.rows;
       if (!user || user.length === 0) {
         // If user doesn't exist, create a new user
         await pool.query(insertUser.createUser, [
           name,
           email,
-          "pass_oauth2/null",
+          "null_oauth1/google",
           new Date().toISOString().split("T")[0],
           "active",
           "user",
