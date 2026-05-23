@@ -12,7 +12,7 @@ module.exports = (Oauth2) => {
       });
 
       const payload = ticket.getPayload();
-      const { name, email } = payload;
+      const { name, email, token } = payload;
       // Check if user exists in the database
       const result = await pool.query(findUser.findByUsername, [email]);
       let user = result.rows;
@@ -26,7 +26,12 @@ module.exports = (Oauth2) => {
           "active",
           "user",
         ]);
-        return res.status(201).send({ message: "User created successfully" });
+
+        const newUserResult = await pool.query(findUser.findByUsername, [
+          email,
+        ]);
+        user = newUserResult.rows;
+        return res.status(201).send({ role: user[0].role, token });
       }
       return res
         .status(200)
