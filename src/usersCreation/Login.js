@@ -35,6 +35,10 @@ module.exports = (Login) => {
         return res.status(403).send({ error: "Invalid password", status: 403 });
       }
 
+      if (user[0].status !== "active") {
+        return res.status(403).send({ error: "Unauthorized" });
+      }
+
       const token = jwt.sign(
         { id: user[0].id, username: user[0].username, role: user[0].role },
         secretKey,
