@@ -1,5 +1,10 @@
 require("dotenv").config();
-const { pool, client } = require("../../puplic/modules/modules");
+const {
+  pool,
+  client,
+  jwt,
+  secretKey,
+} = require("../../puplic/modules/modules");
 const { findUser, insertUser } = require("../../sql/query");
 
 module.exports = (Oauth2) => {
@@ -26,11 +31,19 @@ module.exports = (Oauth2) => {
           "active",
           "user",
         ]);
-        return res.status(201).send({ message: "User created successfully" });
+        const token = jwt.sign(
+          { id: user[0].id, username: user[0].username, role: user[0].role },
+          secretKey,
+          { expiresIn: "1h" },
+        );
+        return res.status(201).send({ token });
       }
-      return res
-        .status(200)
-        .send({ message: "User authenticated successfully" });
+      const token = jwt.sign(
+        { id: user[0].id, username: user[0].username, role: user[0].role },
+        secretKey,
+        { expiresIn: "1h" },
+      );
+      return res.status(200).send({ token });
     } catch (error) {
       console.error("Error verifying Google token:", error);
       return res.status(401).send({ error: "Invalid Google token" });
