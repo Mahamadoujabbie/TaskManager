@@ -31,19 +31,19 @@ module.exports = (Oauth2) => {
           "active",
           "user",
         ]);
-        const token = jwt.sign(
+        const jwttoken = jwt.sign(
           { id: user[0].id, username: user[0].username, role: user[0].role },
           secretKey,
           { expiresIn: "1h" },
         );
-        return res.status(201).send({ token });
+        return res.status(201).send({ token: jwttoken });
       }
-      const token = jwt.sign(
+      const jwttoken = jwt.sign(
         { id: user[0].id, username: user[0].username, role: user[0].role },
         secretKey,
         { expiresIn: "1h" },
       );
-      return res.status(200).send({ token });
+      return res.status(200).send({ token: jwttoken });
     } catch (error) {
       console.error("Error verifying Google token:", error);
       return res.status(401).send({ error: "Invalid Google token" });
